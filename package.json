@@ -1,0 +1,15 @@
+{
+  "name": "itechno-web-develpment-",
+  "version": "1.0.0",
+  "description": "> **Quick Execution**: Open [`index.html`](file:///Users/sam/Documents/ITECHNO%20WEB%20DEVELPMENT%20/index.html) directly in any modern browser or visit `http://localhost:8080/`. No build steps or server dependencies required.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vitest": "^4.1.11"
+  }
+}

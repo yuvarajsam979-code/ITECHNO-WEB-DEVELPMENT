@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-font-size="normal">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CampusGuard — Campus Safety & Harassment Reporting System with automated authority escalation, privacy shielding, and role-based portals.">
+  <meta name="keywords" content="campus safety, anti-ragging, harassment reporting, student protection, confidential reporting, role-based dashboards">
+  <title>CampusGuard | Campus Safety & Harassment Reporting System</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Accessibility Skip Link -->
+  <a href="#main-content" class="skip-link" id="skip-to-content">Skip to main content</a>
+
+  <!-- Top Disclaimer & Accessibility Controls Bar -->
+  <aside class="demo-banner" aria-label="Prototype environment notification">
+    <div class="demo-banner-left">
+      <span class="badge-prototype">Competition Prototype</span>
+      <span id="banner-disclaimer-text">Simulated Demonstration Environment • No production server connection • Demo records are local only</span>
+    </div>
+    <div class="accessibility-controls">
+      <!-- Language Switcher -->
+      <button type="button" class="btn-icon-sm" id="btn-lang-toggle" aria-label="Toggle Language between English and Tamil" title="Change Language">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span id="current-lang-label">தமிழ் (Tamil)</span>
+      </button>
+
+      <!-- Font Size Scaler -->
+      <button type="button" class="btn-icon-sm" id="btn-font-toggle" aria-label="Cycle Font Size" title="Adjust Text Size">
+        <span style="font-weight: 800;">A±</span>
+      </button>
+
+      <!-- Theme Switcher (Light-First Design) -->
+      <button type="button" class="btn-icon-sm" id="btn-theme-toggle" aria-label="Toggle High-Contrast Theme" title="Toggle Theme">
+        <svg id="theme-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Authenticated Header (Visible when a user is signed in) -->
+  <header class="site-header" id="authenticated-site-header" role="banner">
+    <div class="container nav-inner">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">Campus<span>Guard</span></span>
+          <span class="brand-sub" id="brand-tagline">Safety & Reporting Portal</span>
+        </div>
+      </div>
+
+      <!-- Role-Specific Navigation Links (Populated dynamically) -->
+      <nav role="navigation" aria-label="Main Application Navigation">
+        <ul class="nav-links" id="main-nav-links">
+          <!-- Dynamically generated according to active role -->
+        </ul>
+      </nav>
+
+      <!-- Header Actions: User Profile Chip, Notifications, Logout -->
+      <div class="header-actions">
+        <!-- User Profile Chip -->
+        <div class="user-profile-chip" id="user-header-chip" title="Active signed in profile">
+          <div class="user-avatar-circle" id="user-avatar-initial">S</div>
+          <div class="user-chip-info">
+            <span class="user-chip-name" id="user-display-name">Student</span>
+            <span class="user-chip-role" id="user-display-role">Student Role</span>
+          </div>
+        </div>
+
+        <!-- Notification Bell -->
+        <button type="button" class="btn-notification" id="btn-toggle-notifications" aria-label="Open notifications panel" aria-expanded="false">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="notification-count" id="notification-counter" aria-label="Unread notifications">0</span>
+        </button>
+
+        <!-- Logout Action Button -->
+        <button type="button" class="btn-logout" id="btn-logout" title="Sign out and return to login page">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span>Sign Out</span>
+        </button>
+
+        <!-- Mobile Menu Hamburger -->
+        <button type="button" class="mobile-nav-toggle" id="btn-mobile-menu" aria-label="Toggle navigation menu" aria-expanded="false">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Interactive Notification Drawer / Panel -->
+  <aside class="notification-panel" id="notification-drawer" aria-labelledby="notif-heading">
+    <div class="notification-header">
+      <span class="notification-title" id="notif-heading">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        Role Notifications
+      </span>
+      <div class="notification-actions">
+        <button type="button" class="btn-link-xs" id="btn-mark-all-read">Mark all read</button>
+        <button type="button" class="btn-link-xs" id="btn-close-notifs" aria-label="Close notifications panel">✕</button>
+      </div>
+    </div>
+    <div class="notification-list" id="notification-items-container" role="feed" aria-live="polite">
+      <!-- Populated dynamically via script.js -->
+    </div>
+  </aside>
+
+  <!-- Main Content Container with Dedicated Views -->
+  <main id="main-content">
+
+    <!-- =========================================================================
+         VIEW 0: PART 2 — PREMIUM ORANGE & WHITE SPLIT LOGIN VIEW
+         ========================================================================= -->
+    <section id="login-view" class="app-view active-view" aria-labelledby="login-hero-h1">
+      <div class="container login-split-container">
+        <!-- Left Section: Branding, Heading, 3 Trust Indicators & Visual Motif -->
+        <div class="login-left-brand">
+          <div class="brand">
+            <div class="brand-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="brand-text">
+              <span class="brand-title">Campus<span>Guard</span></span>
+              <span class="brand-sub">University Safety System</span>
+            </div>
+          </div>
+
+          <h1 class="login-brand-heading" id="login-hero-h1">
+            Your Safety. <span>Your Voice.</span>
+          </h1>
+
+          <p class="login-brand-lead" id="login-hero-desc">
+            A secure digital framework enabling students to report offline ragging and cyber harassment safely. Repeated offenses automatically escalate directly to university leadership without compromising whistleblower privacy.
+          </p>
+
+          <!-- 3 Trust Indicators -->
+          <div class="login-trust-list">
+            <div class="login-trust-item">
+              <div class="login-trust-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </div>
+              <div class="login-trust-text">
+                <h4>Confidential Reporting Shield</h4>
+                <p>Whistleblower identity is shielded from lower department views with an optional anonymous filing mode.</p>
+              </div>
+            </div>
+
+            <div class="login-trust-item">
+              <div class="login-trust-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              </div>
+              <div class="login-trust-text">
+                <h4>Clear Escalation Workflow</h4>
+                <p>Deterministic 3-tier rules: First report → HOD, Second report → Dean, Third report → Disciplinary Board.</p>
+              </div>
+            </div>
+
+            <div class="login-trust-item">
+              <div class="login-trust-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div class="login-trust-text">
+                <h4>Transparent Status Tracking</h4>
+                <p>Search via unique Reference IDs to view public milestones without leaking private investigation notes.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- CSS Illustrated Shield Motif with Statistics -->
+          <div class="login-visual-shield">
+            <div class="shield-stat-badge">
+              <span class="shield-stat-val">100%</span>
+              <span class="shield-stat-lbl">Confidential</span>
+            </div>
+            <div style="height: 30px; width: 1px; background: var(--color-border);"></div>
+            <div class="shield-stat-badge">
+              <span class="shield-stat-val">3-Tier</span>
+              <span class="shield-stat-lbl">Escalation</span>
+            </div>
+            <div style="height: 30px; width: 1px; background: var(--color-border);"></div>
+            <div class="shield-stat-badge">
+              <span class="shield-stat-val">Live</span>
+              <span class="shield-stat-lbl">Tracking</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Section: Login Card with 4 Role Selection Cards & Dynamic Inputs -->
+        <div class="login-right-panel">
+          <div class="login-card-header">
+            <span class="badge badge-escalated" id="login-role-badge">Student Member Authentication</span>
+            <h2 style="font-size: 1.45rem; font-weight: 900; color: var(--color-text);" id="login-form-title">
+              Sign In to Student Portal
+            </h2>
+            <p style="font-size: 0.85rem; color: var(--color-text-secondary);" id="login-form-sub">
+              Select your member role and enter credentials to access your authorized console.
+            </p>
+          </div>
+
+          <!-- 4 Selectable Role Cards in 2x2 Grid -->
+          <div class="role-cards-grid" role="radiogroup" aria-label="Select member category">
+            <!-- Role 1: Student -->
+            <div class="role-card-select selected" id="role-card-student" data-role="student" tabindex="0" role="radio" aria-checked="true">
+              <div class="role-card-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+              </div>
+              <div class="role-card-text">
+                <span class="role-card-title">Student</span>
+                <span class="role-card-desc">Lodge & track reports</span>
+              </div>
+            </div>
+
+            <!-- Role 2: HOD -->
+            <div class="role-card-select" id="role-card-hod" data-role="hod" tabindex="0" role="radio" aria-checked="false">
+              <div class="role-card-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              </div>
+              <div class="role-card-text">
+                <span class="role-card-title">HOD</span>
+                <span class="role-card-desc">Stage 1 dept review</span>
+              </div>
+            </div>
+
+            <!-- Role 3: Dean -->
+            <div class="role-card-select" id="role-card-dean" data-role="dean" tabindex="0" role="radio" aria-checked="false">
+              <div class="role-card-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              </div>
+              <div class="role-card-text">
+                <span class="role-card-title">Dean</span>
+                <span class="role-card-desc">Level 2 escalations</span>
+              </div>
+            </div>
+
+            <!-- Role 4: Higher Authority -->
+            <div class="role-card-select" id="role-card-higher_authority" data-role="higher_authority" tabindex="0" role="radio" aria-checked="false">
+              <div class="role-card-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+              </div>
+              <div class="role-card-text">
+                <span class="role-card-title">Higher Auth</span>
+                <span class="role-card-desc">Tribunal decisions</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- One-Click Auto-Fill Demo Credentials Helper -->
+          <div class="login-credentials-helper">
+            <div>
+              <span style="font-weight: 800; color: var(--color-text);">Demo: </span>
+              <span id="demo-creds-preview" style="font-family: var(--font-mono); color: var(--color-primary-hover); font-weight: 700;">student@campus.edu • student123</span>
+            </div>
+            <button type="button" class="btn-autofill" id="btn-autofill-creds" title="Auto-fill sample credentials for this role">
+              ✨ Auto-Fill
+            </button>
+          </div>
+
+          <!-- Dynamic Form Inputs -->
+          <form id="auth-login-form" novalidate>
+            <div class="form-group">
+              <label for="login-identifier" class="form-label" id="label-login-id">
+                Student Email / Roll Number <span class="req">*</span>
+              </label>
+              <input type="text" id="login-identifier" class="form-control" placeholder="student@campus.edu or STU-2026-041" required autocomplete="username">
+            </div>
+
+            <div class="form-group">
+              <label for="login-password" class="form-label">
+                Password <span class="req">*</span>
+              </label>
+              <div class="input-password-wrapper">
+                <input type="password" id="login-password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+                <button type="button" class="btn-toggle-password" id="btn-toggle-pw" aria-label="Toggle password visibility">
+                  <svg id="eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="login-extra-row">
+              <label class="login-remember-label">
+                <input type="checkbox" id="check-remember-me" checked>
+                <span>Remember demo session</span>
+              </label>
+              <button type="button" class="btn-link-xs" id="btn-forgot-pw">Demo Credentials Help</button>
+            </div>
+
+            <!-- Error Banner -->
+            <div class="error-message" id="login-error-msg" style="background: var(--color-danger-bg); border: 1px solid var(--color-danger-border); padding: 8px 12px; border-radius: var(--radius-sm); margin: 4px 0;">
+              Invalid credentials. Please select the correct role and use the configured demo login.
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-submit-login" id="btn-submit-login">
+              <span id="btn-login-text">Sign In to Dashboard →</span>
+            </button>
+          </form>
+
+          <div style="font-size: 0.75rem; color: var(--color-text-muted); border-top: 1px solid var(--color-border); padding-top: 10px; line-height: 1.4;">
+            <strong>Demo Environment:</strong> Browser-only authentication prototype for competition evaluation. Production environments require enterprise SAML/OAuth2 IdP and server-side authorization.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         VIEW 1: STUDENT DASHBOARD & PORTAL
+         ========================================================================= -->
+    <section id="student-portal-view" class="app-view" aria-labelledby="student-portal-h2">
+      <div class="container">
+        <!-- Student Sub-Navigation -->
+        <nav class="dashboard-subnav" aria-label="Student Portal Navigation">
+          <button type="button" class="subnav-btn active" data-pane="student-pane-home" id="subnav-student-home">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            <span>Home</span>
+          </button>
+          <button type="button" class="subnav-btn" data-pane="student-pane-report" id="subnav-student-report">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>Report an Incident</span>
+          </button>
+          <button type="button" class="subnav-btn" data-pane="student-pane-track" id="subnav-student-track">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <span>Track My Complaint</span>
+          </button>
+          <button type="button" class="subnav-btn" data-pane="student-pane-myreports" id="subnav-student-myreports">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <span>My Reports</span>
+          </button>
+          <button type="button" class="subnav-btn" data-pane="student-pane-privacy-preview" id="subnav-student-privacy">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span>Privacy Preview</span>
+          </button>
+          <button type="button" class="subnav-btn" data-pane="student-pane-safety" id="subnav-student-safety">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>Safe Zones & Directory</span>
+          </button>
+          <button type="button" class="subnav-btn" data-pane="student-pane-profile" id="subnav-student-profile">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>Profile</span>
+          </button>
+        </nav>
+
+        <!-- Pane A: Student Home -->
+        <div class="dashboard-pane active-pane" id="student-pane-home">
+          <div class="dashboard-header">
+            <div>
+              <span class="section-tag">Student Safety Portal</span>
+              <h2 id="student-portal-h2">Welcome back, <span id="student-welcome-name">Karthik</span></h2>
+              <p>Confidential anti-ragging reporting, automatic escalation, and transparent incident tracking.</p>
+            </div>
+            <button type="button" class="btn btn-primary" id="btn-student-quick-report">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>Report an Incident</span>
+            </button>
+          </div>
+
+          <!-- Calculated Metrics -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <span class="metric-label">Your Filed Reports</span>
+              <span class="metric-value" id="student-metric-total">0</span>
+              <span class="metric-sub">Session filings</span>
+            </div>
+            <div class="metric-card card-review">
+              <span class="metric-label">Under Department Review</span>
+              <span class="metric-value" id="student-metric-review">0</span>
+              <span class="metric-sub">Stage 1: HOD evaluation</span>
+            </div>
+            <div class="metric-card card-escalated">
+              <span class="metric-label">Escalated Cases</span>
+              <span class="metric-value" id="student-metric-escalated">0</span>
+              <span class="metric-sub">Stage 2 / Stage 3</span>
+            </div>
+            <div class="metric-card card-resolved">
+              <span class="metric-label">Resolved & Closed</span>
+              <span class="metric-value" id="student-metric-resolved">0</span>
+              <span class="metric-sub">Action taken</span>
+            </div>
+          </div>
+
+          <!-- Dashboard Content Grid -->
+          <div class="dashboard-grid">
+            <div class="dashboard-card">
+              <div class="card-title-row">
+                <h3>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                  Your Active Reports
+                </h3>
+                <span class="badge badge-submitted" id="student-home-active-badge">0 Reports</span>
+              </div>
+              <div class="reports-list" id="student-home-reports-list"></div>
+            </div>
+
+            <!-- Side Privacy Shield Guidance -->
+            <div class="safety-advice-card">
+              <h4>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                Whistleblower Privacy Shield
+              </h4>
+              <ul class="advice-list">
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span><strong>Zero Retaliation Guarantee:</strong> Statutory immunity shields reporting students from faculty/peer bias.</span>
+                </li>
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span><strong>Automated Escalation:</strong> Multiple reports under the same case group climb to Dean & Board.</span>
+                </li>
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span><strong>Role-Masked Details:</strong> Lower department authorities cannot see your identity.</span>
+                </li>
+              </ul>
+              <div style="display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap;">
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-open-privacy-preview-home">
+                  👁️ Preview My Privacy
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-student-view-zones">
+                  Campus Safe Zones →
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pane B: Report an Incident Form -->
+        <div class="dashboard-pane" id="student-pane-report">
+          <div class="form-card">
+            <!-- Form Header with Quick Exit and Privacy Preview Buttons -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg); flex-wrap: wrap; gap: 10px;">
+              <div style="display: flex; gap: 8px;">
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-form-privacy-preview" title="View what each role can see for this report">
+                  👁️ Preview My Privacy
+                </button>
+              </div>
+              <!-- Part 6: Quick Exit Button -->
+              <button type="button" class="btn-quick-exit" id="btn-quick-exit" title="Immediately navigate away to safe campus screen">
+                ⚡ Quick Exit
+              </button>
+            </div>
+
+            <!-- Stepper Progress Indicator -->
+            <nav class="form-stepper" aria-label="Complaint form steps progress">
+              <div class="stepper-step active" id="stepper-step-1">
+                <div class="stepper-circle">1</div>
+                <span class="stepper-label">Classification</span>
+              </div>
+              <div class="stepper-step" id="stepper-step-2">
+                <div class="stepper-circle">2</div>
+                <span class="stepper-label">Incident</span>
+              </div>
+              <div class="stepper-step" id="stepper-step-3">
+                <div class="stepper-circle">3</div>
+                <span class="stepper-label">Details</span>
+              </div>
+              <div class="stepper-step" id="stepper-step-4">
+                <div class="stepper-circle">4</div>
+                <span class="stepper-label">Evidence</span>
+              </div>
+              <div class="stepper-step" id="stepper-step-5">
+                <div class="stepper-circle">5</div>
+                <span class="stepper-label">Review</span>
+              </div>
+            </nav>
+
+            <form id="complaint-form" novalidate>
+              <!-- Step 1: Type & Category -->
+              <div class="form-step-content active" id="step-content-1">
+                <div class="step-header">
+                  <h3>Select Incident Classification</h3>
+                  <p>Specify whether this harassment took place physically on campus or across digital communication platforms.</p>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Complaint Nature <span class="req">*</span></label>
+                  <div class="type-selector-grid">
+                    <label class="type-option-card selected" id="type-opt-offline">
+                      <input type="radio" name="complaintType" value="offline" checked>
+                      <div class="type-card-indicator"></div>
+                      <div class="type-card-content">
+                        <h4>Offline Ragging / Harassment</h4>
+                        <p>Physical stalking, verbal intimidation, hostel rituals, forced errands on campus premises.</p>
+                      </div>
+                    </label>
+                    <label class="type-option-card" id="type-opt-online">
+                      <input type="radio" name="complaintType" value="online">
+                      <div class="type-card-indicator"></div>
+                      <div class="type-card-content">
+                        <h4>Online / Cyber Ragging</h4>
+                        <p>Fake profiles, obscene messaging, WhatsApp harassment, cyber threats, defamatory postings.</p>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="incident-category-select" class="form-label">
+                    Incident Category <span class="req">*</span>
+                  </label>
+                  <select id="incident-category-select" class="form-control" required>
+                    <option value="">-- Choose Category --</option>
+                    <option value="Following or stalking">Following or stalking</option>
+                    <option value="Unwanted behaviour">Unwanted behaviour</option>
+                    <option value="Threats or intimidation">Threats or intimidation</option>
+                    <option value="Other offline incidents">Other offline incidents</option>
+                  </select>
+                  <span class="error-message" id="err-category">Please select an incident category.</span>
+                </div>
+
+                <!-- Case Group for Repeat Testing -->
+                <div class="form-group" style="background: var(--color-primary-soft); border: 1px dashed var(--color-primary-border); padding: 12px; border-radius: var(--radius-control);">
+                  <label for="demo-case-group" class="form-label">
+                    Demo Case Group Identifier <span class="optional">(Optional)</span>
+                  </label>
+                  <input type="text" id="demo-case-group" class="form-control" placeholder="e.g. CASE-HOSTEL-B or leave blank for auto-assigned" value="">
+                  <span class="form-hint">Tip for Judges: Submitting multiple complaints under the <strong>same Case Group</strong> triggers automatic 2nd (Dean) and 3rd (Higher Authority) escalation!</span>
+                </div>
+              </div>
+
+              <!-- Step 2: Date, Time & Location -->
+              <div class="form-step-content" id="step-content-2">
+                <div class="step-header">
+                  <h3>Incident Date, Time & Location</h3>
+                  <p>Provide occurrence details to assist administrative investigation.</p>
+                </div>
+
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label for="incident-date" class="form-label">Incident Date <span class="req">*</span></label>
+                    <input type="date" id="incident-date" class="form-control" required>
+                    <span class="error-message" id="err-date">Valid past or present date is required (no future dates).</span>
+                  </div>
+                  <div class="form-group">
+                    <label for="incident-time" class="form-label">Incident Time <span class="req">*</span></label>
+                    <input type="time" id="incident-time" class="form-control" required>
+                    <span class="error-message" id="err-time">Please provide approximate incident time.</span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="incident-location" class="form-label" id="label-location">
+                    Physical Campus Location <span class="req">*</span>
+                  </label>
+                  <input type="text" id="incident-location" class="form-control" placeholder="e.g., Central Library Block 3, North Lawn, Hostel Dining Hall" required>
+                  <span class="error-message" id="err-location">Please specify incident location or online handle/app.</span>
+                </div>
+              </div>
+
+              <!-- Step 3: Description & Suspect Information -->
+              <div class="form-step-content" id="step-content-3">
+                <div class="step-header">
+                  <h3>Detailed Description & Suspect Information</h3>
+                  <p>Detail the sequence of events. Suspect details are optional if unknown.</p>
+                </div>
+
+                <div class="form-group">
+                  <div class="char-count-row">
+                    <label for="incident-description" class="form-label">Incident Description <span class="req">*</span></label>
+                    <span class="char-counter" id="char-counter">0 / 1000</span>
+                  </div>
+                  <textarea id="incident-description" class="form-control" rows="5" placeholder="Chronologically describe what took place, words exchanged, actions committed, and witnesses present..." maxlength="1000" required></textarea>
+                  <span class="error-message" id="err-desc">Description is required (minimum 15 characters).</span>
+                </div>
+
+                <fieldset style="border: 1px solid var(--color-border); border-radius: var(--radius-control); padding: 14px; margin-top: 8px;">
+                  <legend style="padding: 0 8px; font-size: 0.82rem; font-weight: 800; color: var(--color-primary-hover);">Available Suspect Details (Optional)</legend>
+                  <div class="form-grid-2">
+                    <div class="form-group">
+                      <label for="suspect-name" class="form-label">Suspect Name / Nickname <span class="optional">(Optional)</span></label>
+                      <input type="text" id="suspect-name" class="form-control" placeholder="Known name or alias">
+                    </div>
+                    <div class="form-group">
+                      <label for="suspect-dept" class="form-label">Suspect Department / Year <span class="optional">(Optional)</span></label>
+                      <input type="text" id="suspect-dept" class="form-control" placeholder="e.g., Mechanical 3rd Year">
+                    </div>
+                  </div>
+                  <div class="form-group" style="margin-top: 8px;">
+                    <label for="suspect-phone" class="form-label">Suspect Contact / Social Handle <span class="optional">(Optional)</span></label>
+                    <input type="text" id="suspect-phone" class="form-control" placeholder="Phone or Instagram / Telegram handle if known">
+                  </div>
+                </fieldset>
+              </div>
+
+              <!-- Step 4: Evidence & Anonymous Mode -->
+              <div class="form-step-content" id="step-content-4">
+                <div class="step-header">
+                  <h3>Evidence Upload & Anonymous Mode</h3>
+                  <p>Attach supporting screenshots or files and configure privacy preferences.</p>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    Supporting Evidence <span class="optional">(Optional - Strongly recommended for cyber cases)</span>
+                  </label>
+                  <div class="upload-dropzone" id="evidence-dropzone" role="button" tabindex="0" aria-label="Upload evidence files">
+                    <input type="file" id="evidence-file-input" accept="image/png, image/jpeg, image/webp, application/pdf" style="display: none;">
+                    <div class="upload-icon">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    </div>
+                    <p><strong>Click to browse</strong> or drag & drop screenshots / documents</p>
+                    <span class="form-hint">Accepted formats: PNG, JPG, PDF (Max 10MB). Stored locally in session memory.</span>
+                  </div>
+
+                  <div class="evidence-preview-container" id="evidence-preview-box">
+                    <div class="evidence-preview-left">
+                      <div class="evidence-thumb" id="evidence-thumb-container">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                      </div>
+                      <div>
+                        <span id="evidence-filename" style="font-weight: 700; font-size: 0.88rem;">screenshot.png</span>
+                        <span id="evidence-filesize" style="font-size: 0.75rem; color: var(--color-text-muted); display: block;">1.2 MB</span>
+                      </div>
+                    </div>
+                    <button type="button" class="btn btn-danger btn-sm" id="btn-remove-evidence">Remove Evidence</button>
+                  </div>
+                </div>
+
+                <!-- Anonymous Toggle -->
+                <div class="anonymous-box">
+                  <div class="anonymous-box-left">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--color-primary);"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    <div>
+                      <h4 style="font-size: 0.95rem; font-weight: 800;">Submit Anonymously</h4>
+                      <p style="font-size: 0.8rem; color: var(--color-text-secondary);">
+                        Strip your student credentials from report records and HOD / Dean review consoles.
+                      </p>
+                    </div>
+                  </div>
+                  <label class="anonymous-toggle" aria-label="Toggle anonymous submission mode">
+                    <input type="checkbox" id="check-anonymous">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+
+                <!-- Reporter Details Container -->
+                <div id="reporter-fields-container" style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
+                  <p style="font-size: 0.82rem; color: var(--color-text-secondary);">
+                    <strong>Reporter Follow-up Credentials</strong> (Pre-filled from signed-in student profile; strictly masked from lower authorities):
+                  </p>
+                  <div class="form-grid-2">
+                    <div class="form-group">
+                      <label for="reporter-name" class="form-label">Full Name <span class="optional">(Optional)</span></label>
+                      <input type="text" id="reporter-name" class="form-control" value="Karthik S.">
+                    </div>
+                    <div class="form-group">
+                      <label for="reporter-id" class="form-label">Student Roll / ID <span class="optional">(Optional)</span></label>
+                      <input type="text" id="reporter-id" class="form-control" value="STU-2026-041">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="reporter-contact" class="form-label">Confidential Email or Phone <span class="optional">(Optional)</span></label>
+                    <input type="text" id="reporter-contact" class="form-control" value="student@campus.edu">
+                  </div>
+                </div>
+
+                <div id="anonymous-active-banner" style="display: none; background: #F5F5F4; border: 1px dashed var(--color-border-strong); padding: 12px; border-radius: var(--radius-control); font-size: 0.82rem; color: var(--color-text-secondary); margin-top: 10px;">
+                  <strong>🔒 Anonymous Shield Active:</strong> Personal identification fields will NOT be recorded. Lower and higher authority review panels will receive the complaint flagged as "Anonymous Whistleblower".
+                </div>
+              </div>
+
+              <!-- Step 5: Final Review & Confirmation -->
+              <div class="form-step-content" id="step-content-5">
+                <div class="step-header">
+                  <h3>Review Report Summary Before Submission</h3>
+                  <p>Verify all details for accuracy. Once submitted, your case will be securely assigned to the Head of Department.</p>
+                </div>
+
+                <div id="review-summary-container" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-control); padding: 16px; display: flex; flex-direction: column; gap: 12px; font-size: 0.88rem;">
+                  <!-- Filled dynamically via JS -->
+                </div>
+              </div>
+
+              <!-- Form Navigation Buttons -->
+              <div class="form-nav-row">
+                <button type="button" class="btn btn-secondary" id="btn-form-prev" style="visibility: hidden;">
+                  ← Back
+                </button>
+                <button type="button" class="btn btn-primary" id="btn-form-next">
+                  Next Step →
+                </button>
+                <button type="submit" class="btn btn-primary" id="btn-form-submit" style="display: none;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                  Confirm & Submit Report
+                </button>
+              </div>
+            </form>
+
+            <!-- Submission Success Screen -->
+            <div class="submission-success-card" id="submission-success-card">
+              <div class="success-icon-badge" aria-hidden="true">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <h2>Complaint Successfully Recorded!</h2>
+              <p style="color: var(--color-text-secondary); max-width: 520px;">
+                Your incident report has been securely registered. Initial assignment has been routed to the <strong>Head of Department (HOD)</strong>. Save your Reference ID below to monitor updates.
+              </p>
+              <div class="ref-id-display-box">
+                <span style="font-size: 0.85rem; color: var(--color-text-muted);">Reference ID:</span>
+                <span class="ref-code" id="success-ref-code">CR-2026-0000</span>
+                <button type="button" class="btn-icon-sm" id="btn-copy-ref" title="Copy Reference ID">Copy</button>
+              </div>
+              <div style="display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; justify-content: center;">
+                <button type="button" class="btn btn-primary" id="btn-success-track">Track This Report Now</button>
+                <button type="button" class="btn btn-secondary" id="btn-success-return-home">Back to Student Home</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pane C: Track My Complaint -->
+        <div class="dashboard-pane" id="student-pane-track">
+          <div class="section-header">
+            <span class="section-tag">Complaint Verification</span>
+            <h2 class="section-title">Track Incident Status</h2>
+            <p class="section-desc">Enter your unique Reference ID to review real-time review progress, assigned authority tier, and timeline milestones.</p>
+          </div>
+
+          <div class="track-search-box">
+            <label for="track-input-ref" class="form-label">Enter Complaint Reference ID</label>
+            <div class="search-input-group">
+              <input type="text" id="track-input-ref" class="form-control" placeholder="e.g. CR-2026-1042" style="font-family: var(--font-mono); text-transform: uppercase;">
+              <button type="button" class="btn btn-primary" id="btn-search-tracking">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                Track Case
+              </button>
+            </div>
+            <span class="error-message" id="err-tracking-search">Please enter a valid reference ID.</span>
+
+            <div class="demo-pills-row">
+              <span>Quick demo samples:</span>
+              <button type="button" class="demo-pill-btn" data-ref="CR-2026-1042">CR-2026-1042 (HOD Stage)</button>
+              <button type="button" class="demo-pill-btn" data-ref="CR-2026-2189">CR-2026-2189 (Dean Escalation)</button>
+              <button type="button" class="demo-pill-btn" data-ref="CR-2026-3401">CR-2026-3401 (Higher Auth)</button>
+            </div>
+          </div>
+
+          <!-- Tracking Result Card -->
+          <div class="tracking-result-card" id="tracking-result-card">
+            <div class="tracking-header">
+              <div class="tracking-header-left">
+                <h3>Case <span id="track-res-id" class="ref-code">CR-2026-0000</span></h3>
+                <span id="track-res-type" style="font-size: 0.85rem; color: var(--color-text-muted);">Offline Ragging • Threats</span>
+              </div>
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <span id="track-res-status-badge" class="badge badge-review">Under Review</span>
+                <span id="track-res-authority-badge" class="badge badge-authority">HOD Level</span>
+              </div>
+            </div>
+
+            <div class="tracking-meta-grid">
+              <div class="track-meta-item">
+                <span class="track-meta-label">Filed On</span>
+                <span class="track-meta-val" id="track-res-date">Oct 08, 2026</span>
+              </div>
+              <div class="track-meta-item">
+                <span class="track-meta-label">Location / Platform</span>
+                <span class="track-meta-val" id="track-res-location">North Quad Lawn</span>
+              </div>
+              <div class="track-meta-item">
+                <span class="track-meta-label">Escalation Stage</span>
+                <span class="track-meta-val" id="track-res-stage">Stage 1: HOD</span>
+              </div>
+              <div class="track-meta-item">
+                <span class="track-meta-label">Next Action Step</span>
+                <span class="track-meta-val" id="track-res-next-step">Department Committee Inquiry</span>
+              </div>
+            </div>
+
+            <div class="privacy-mask-banner">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--color-primary); flex-shrink: 0;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span><strong>Privacy Shield Enforced:</strong> Complainant identity and internal authority review notes are protected from public tracking view.</span>
+            </div>
+
+            <div>
+              <h4 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 16px;">Chronological Action Timeline</h4>
+              <div class="timeline-container" id="tracking-timeline-container"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pane D: My Reports -->
+        <div class="dashboard-pane" id="student-pane-myreports">
+          <div class="dashboard-header">
+            <div>
+              <h2>My Submitted Complaints</h2>
+              <p>Review all complaints filed from this student session account.</p>
+            </div>
+          </div>
+          <div class="reports-list" id="student-my-reports-list"></div>
+        </div>
+
+        <!-- Pane E: PART 3 — PRIVACY PREVIEW PANE -->
+        <div class="dashboard-pane" id="student-pane-privacy-preview">
+          <div class="dashboard-card">
+            <div class="card-title-row">
+              <h3>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                Privacy Preview: Who Can See My Report?
+              </h3>
+              <span class="badge badge-escalated">Verified Privacy Matrix</span>
+            </div>
+            <p style="color: var(--color-text-secondary); font-size: 0.92rem; line-height: 1.6;">
+              CampusGuard enforces field-level access control. The table below outlines what each institutional role can view for any report you lodge:
+            </p>
+
+            <div class="privacy-table-wrapper">
+              <table class="privacy-preview-table">
+                <thead>
+                  <tr>
+                    <th>Data Field</th>
+                    <th>Student (You)</th>
+                    <th>Head of Dept (HOD)</th>
+                    <th>Dean of Affairs</th>
+                    <th>Higher Authority</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Complaint Reference ID</strong></td>
+                    <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                    <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                    <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                    <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Incident Category & Nature</strong></td>
+                    <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                    <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                    <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                    <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Incident Narrative & Description</strong></td>
+                    <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                    <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                    <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                    <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Reporter Identity (Name/Roll)</strong></td>
+                    <td><span class="privacy-tag-visible">✓ Own Details</span></td>
+                    <td><span class="privacy-tag-restricted">🔒 Restricted</span></td>
+                    <td><span class="privacy-tag-restricted">🔒 Restricted</span></td>
+                    <td><span class="privacy-tag-authorized">👁️ Authorized Only</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Suspect Profile Details</strong></td>
+                    <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                    <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                    <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                    <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Uploaded Evidence Files</strong></td>
+                    <td><span class="privacy-tag-visible">✓ Attached</span></td>
+                    <td><span class="privacy-tag-visible">✓ Reviewable</span></td>
+                    <td><span class="privacy-tag-visible">✓ Reviewable</span></td>
+                    <td><span class="privacy-tag-visible">✓ Reviewable</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Internal Authority Review Notes</strong></td>
+                    <td><span class="privacy-tag-restricted">🔒 Hidden</span></td>
+                    <td><span class="privacy-tag-visible">✓ Department Log</span></td>
+                    <td><span class="privacy-tag-visible">✓ Proctorial Log</span></td>
+                    <td><span class="privacy-tag-visible">✓ Tribunal Log</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Escalation History & Milestones</strong></td>
+                    <td><span class="privacy-tag-visible">✓ Milestones</span></td>
+                    <td><span class="privacy-tag-visible">✓ Full Audit</span></td>
+                    <td><span class="privacy-tag-visible">✓ Full Audit</span></td>
+                    <td><span class="privacy-tag-visible">✓ Full Audit</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div style="background: var(--color-surface); border: 1px dashed var(--color-primary-border); padding: 12px; border-radius: var(--radius-control); font-size: 0.82rem; color: var(--color-text-secondary);">
+              <strong>Whistleblower Policy:</strong> Higher Authority access to reporter credentials occurs only during formal statutory disciplinary hearings when necessary to execute protective sanctions, provided the student did not toggle anonymous mode.
+            </div>
+          </div>
+        </div>
+
+        <!-- Pane F: Safe Zones & Directory -->
+        <div class="dashboard-pane" id="student-pane-safety">
+          <div class="section-header">
+            <span class="section-tag">Campus Resources</span>
+            <h2 class="section-title">Campus Safe Zones & Emergency Directory</h2>
+            <p class="section-desc">Interactive campus safety checkpoints, emergency assistance kiosks, well-lit corridors, and cyber reporting cells.</p>
+          </div>
+
+          <div class="safe-zone-container">
+            <div class="map-card">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="font-size: 1.1rem; font-weight: 800;">Campus Safety Hotspots</h3>
+                <span class="badge badge-submitted">Interactive Map</span>
+              </div>
+
+              <!-- Stylized Orange-and-White SVG Campus Map -->
+              <div class="campus-svg-wrapper">
+                <svg viewBox="0 0 700 450" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Campus layout and safe zone markers">
+                  <rect width="700" height="450" fill="#FFF7ED" />
+                  <rect x="20" y="20" width="660" height="410" rx="14" fill="#FFFFFF" stroke="#FED7AA" stroke-width="2"/>
+                  
+                  <path d="M 60 225 L 640 225" stroke="#F5F5F4" stroke-width="26" stroke-linecap="round"/>
+                  <path d="M 350 40 L 350 410" stroke="#F5F5F4" stroke-width="26" stroke-linecap="round"/>
+                  <circle cx="350" cy="225" r="50" fill="#FFF7ED" stroke="#FED7AA" stroke-width="2"/>
+
+                  <!-- Blocks -->
+                  <rect x="80" y="60" width="220" height="120" rx="10" fill="#FAFAF9" stroke="#E7E5E4" stroke-width="1.5"/>
+                  <text x="95" y="90" fill="#57534E" font-family="sans-serif" font-size="11" font-weight="800">NORTH QUAD (Academic)</text>
+
+                  <rect x="400" y="60" width="240" height="120" rx="10" fill="#FAFAF9" stroke="#E7E5E4" stroke-width="1.5"/>
+                  <text x="415" y="90" fill="#57534E" font-family="sans-serif" font-size="11" font-weight="800">CENTRAL LIBRARY & MEDIA</text>
+
+                  <rect x="80" y="270" width="220" height="130" rx="10" fill="#FAFAF9" stroke="#E7E5E4" stroke-width="1.5"/>
+                  <text x="95" y="300" fill="#57534E" font-family="sans-serif" font-size="11" font-weight="800">STUDENT PLAZA & CAFETERIA</text>
+
+                  <rect x="400" y="270" width="240" height="130" rx="10" fill="#FAFAF9" stroke="#E7E5E4" stroke-width="1.5"/>
+                  <text x="415" y="300" fill="#57534E" font-family="sans-serif" font-size="11" font-weight="800">RESIDENTIAL HOSTEL ENCLAVE</text>
+
+                  <!-- Pins -->
+                  <g class="zone-pin" data-zone="gate" transform="translate(350, 225)">
+                    <circle cx="0" cy="0" r="22" fill="#F97316" fill-opacity="0.2"/>
+                    <circle cx="0" cy="0" r="14" fill="#F97316"/>
+                    <text x="0" y="4" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="900">01</text>
+                    <text x="0" y="32" text-anchor="middle" fill="#EA580C" font-size="10" font-weight="800">Central Quad Gate</text>
+                  </g>
+
+                  <g class="zone-pin" data-zone="library" transform="translate(520, 120)">
+                    <circle cx="0" cy="0" r="22" fill="#15803D" fill-opacity="0.2"/>
+                    <circle cx="0" cy="0" r="14" fill="#15803D"/>
+                    <text x="0" y="4" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="900">02</text>
+                    <text x="0" y="32" text-anchor="middle" fill="#15803D" font-size="10" font-weight="800">Library Safety Post</text>
+                  </g>
+
+                  <g class="zone-pin" data-zone="hostel" transform="translate(520, 335)">
+                    <circle cx="0" cy="0" r="22" fill="#EA580C" fill-opacity="0.2"/>
+                    <circle cx="0" cy="0" r="14" fill="#EA580C"/>
+                    <text x="0" y="4" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="900">03</text>
+                    <text x="0" y="32" text-anchor="middle" fill="#EA580C" font-size="10" font-weight="800">Hostel Safety Kiosk</text>
+                  </g>
+
+                  <g class="zone-pin" data-zone="cyber" transform="translate(190, 120)">
+                    <circle cx="0" cy="0" r="22" fill="#2563EB" fill-opacity="0.2"/>
+                    <circle cx="0" cy="0" r="14" fill="#2563EB"/>
+                    <text x="0" y="4" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="900">04</text>
+                    <text x="0" y="32" text-anchor="middle" fill="#2563EB" font-size="10" font-weight="800">Cyber Incident Cell</text>
+                  </g>
+                </svg>
+              </div>
+              <p style="font-size: 0.78rem; color: var(--color-text-muted); text-align: center;">Click any colored checkpoint marker above to view security officers and emergency intercoms.</p>
+            </div>
+
+            <div class="zone-details-card" id="zone-details-card">
+              <div style="border-bottom: 1px solid var(--color-border); padding-bottom: 12px;">
+                <span class="badge badge-submitted" id="zone-badge">Checkpoint 01</span>
+                <h3 style="font-size: 1.3rem; font-weight: 800; margin-top: 6px;" id="zone-title">Central Quad Security Post</h3>
+                <p style="font-size: 0.85rem; color: var(--color-text-secondary);" id="zone-location">Location: Campus Core Intersection (Open 24/7)</p>
+              </div>
+              <div>
+                <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 10px;">Security & Support Facilities</h4>
+                <ul class="zone-features-list" id="zone-features">
+                  <li><span>24/7 Uniformed Security Warden on duty</span></li>
+                  <li><span>High-definition CCTV coverage with control room feed</span></li>
+                </ul>
+              </div>
+              <div style="background: var(--color-surface); border-radius: var(--radius-control); padding: 12px;">
+                <span style="font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase; font-weight: 700;">Designated Officer Contact:</span>
+                <p style="font-size: 0.95rem; font-weight: 700; color: var(--color-text); margin-top: 2px;" id="zone-officer">Officer Rajendran K.</p>
+                <span style="font-size: 0.82rem; color: var(--color-primary); font-family: var(--font-mono);" id="zone-phone">Ext: #2041</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pane G: Student Profile -->
+        <div class="dashboard-pane" id="student-pane-profile">
+          <div class="profile-card">
+            <div class="profile-header-row">
+              <div class="profile-avatar-large">S</div>
+              <div>
+                <span class="badge badge-submitted">Active Student Session</span>
+                <h2 style="font-size: 1.6rem; font-weight: 900; margin-top: 4px;" id="profile-student-name">Karthik S.</h2>
+                <p style="font-size: 0.88rem; color: var(--color-text-secondary);">Student Complainant • Mechanical Engineering</p>
+              </div>
+            </div>
+            <div class="profile-info-grid">
+              <div class="field-item">
+                <span class="field-label">Student Roll Number</span>
+                <span class="field-val" id="profile-student-roll">MECH-2025-041</span>
+              </div>
+              <div class="field-item">
+                <span class="field-label">Institutional Email</span>
+                <span class="field-val" id="profile-student-email">student@campus.edu</span>
+              </div>
+              <div class="field-item">
+                <span class="field-label">Whistleblower Protection Status</span>
+                <span class="field-val" style="color: var(--color-success);">✓ Active & Shielded</span>
+              </div>
+              <div class="field-item">
+                <span class="field-label">Session Token</span>
+                <span class="field-val" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted);">DEMO-AUTH-STU-TOKEN-2026</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         VIEW 2: HEAD OF DEPARTMENT (HOD) DASHBOARD
+         ========================================================================= -->
+    <section id="hod-portal-view" class="app-view" aria-labelledby="hod-portal-h2">
+      <div class="container">
+        <!-- HOD Sub-Navigation -->
+        <nav class="dashboard-subnav" aria-label="HOD Dashboard Navigation">
+          <button type="button" class="subnav-btn active" data-pane="hod-pane-overview" id="subnav-hod-overview">Overview</button>
+          <button type="button" class="subnav-btn" data-pane="hod-pane-assigned" id="subnav-hod-assigned">Assigned Complaints</button>
+          <button type="button" class="subnav-btn" data-pane="hod-pane-review" id="subnav-hod-review">Under Review</button>
+          <button type="button" class="subnav-btn" data-pane="hod-pane-history" id="subnav-hod-history">Escalation History</button>
+          <button type="button" class="subnav-btn" data-pane="hod-pane-accountability" id="subnav-hod-accountability">Review Accountability</button>
+          <button type="button" class="subnav-btn" data-pane="hod-pane-summary" id="subnav-hod-summary">Safety Summary</button>
+          <button type="button" class="subnav-btn" data-pane="hod-pane-profile" id="subnav-hod-profile">Profile</button>
+        </nav>
+
+        <div class="role-banner-alert" style="margin-bottom: var(--space-lg);">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--color-primary); flex-shrink: 0;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span>
+              <strong>🔒 Strict Privacy Policy (HOD Level 1):</strong> In accordance with university anti-retaliation rules, complainant identities are masked from departmental review.
+            </span>
+          </div>
+        </div>
+
+        <!-- HOD Overview -->
+        <div class="dashboard-pane active-pane" id="hod-pane-overview">
+          <div class="dashboard-header">
+            <div>
+              <span class="section-tag">Stage 1 Department Console</span>
+              <h2 id="hod-portal-h2">Head of Department Dashboard</h2>
+              <p>Logged in as <strong>Dr. K. Ramanathan (HOD Mechanical)</strong>. Handling initial complaints and department reviews.</p>
+            </div>
+          </div>
+
+          <div class="metrics-grid">
+            <div class="metric-card card-review">
+              <span class="metric-label">Assigned to HOD</span>
+              <span class="metric-value" id="hod-metric-assigned">0</span>
+              <span class="metric-sub">Stage 1 departmental cases</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">Awaiting Initial Review</span>
+              <span class="metric-value" id="hod-metric-awaiting">0</span>
+              <span class="metric-sub">Newly submitted</span>
+            </div>
+            <div class="metric-card card-escalated">
+              <span class="metric-label">Under Active Review</span>
+              <span class="metric-value" id="hod-metric-under-review">0</span>
+              <span class="metric-sub">Inquiry in progress</span>
+            </div>
+            <div class="metric-card card-resolved">
+              <span class="metric-label">Escalated to Dean</span>
+              <span class="metric-value" id="hod-metric-escalated-dean">0</span>
+              <span class="metric-sub">Elevated to Level 2</span>
+            </div>
+          </div>
+
+          <div class="dashboard-card">
+            <div class="card-title-row">
+              <h3>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                Department Assigned Cases (Stage 1)
+              </h3>
+              <span class="badge badge-review" id="hod-cases-badge">Active Queue</span>
+            </div>
+            <div class="authority-cases-grid" id="hod-cases-container"></div>
+          </div>
+        </div>
+
+        <!-- HOD Assigned Pane -->
+        <div class="dashboard-pane" id="hod-pane-assigned">
+          <div class="dashboard-header">
+            <div>
+              <h2>Assigned Stage 1 Complaints</h2>
+              <p>Take administrative action: initiate inquiry notes, schedule fact-checking, or forward eligible cases to the Dean.</p>
+            </div>
+          </div>
+          <div class="authority-cases-grid" id="hod-assigned-list"></div>
+        </div>
+
+        <!-- HOD Under Review Pane -->
+        <div class="dashboard-pane" id="hod-pane-review">
+          <div class="dashboard-header">
+            <div>
+              <h2>Cases Currently Under Active Department Inquiry</h2>
+              <p>Ongoing departmental reviews awaiting conclusion or formal escalation.</p>
+            </div>
+          </div>
+          <div class="authority-cases-grid" id="hod-review-list"></div>
+        </div>
+
+        <!-- HOD Escalation History Pane -->
+        <div class="dashboard-pane" id="hod-pane-history">
+          <div class="dashboard-header">
+            <div>
+              <h2>Department Escalation History to Dean (Level 2)</h2>
+              <p>Archive of cases that graduated from HOD review to Dean of Student Affairs jurisdiction.</p>
+            </div>
+          </div>
+          <div class="authority-cases-grid" id="hod-history-list"></div>
+        </div>
+
+        <!-- HOD PART 5: Review Accountability Pane -->
+        <div class="dashboard-pane" id="hod-pane-accountability">
+          <div class="accountability-panel">
+            <div class="card-title-row">
+              <h3>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+                Department Review Accountability & SLA Tracker
+              </h3>
+              <span class="badge badge-submitted">48-Hour SLA Policy</span>
+            </div>
+            <p style="font-size: 0.88rem; color: var(--color-text-secondary);">
+              Track case response times against configured institutional response benchmarks to prevent case stagnation:
+            </p>
+            <div class="privacy-table-wrapper">
+              <table class="accountability-table" id="hod-accountability-table">
+                <thead>
+                  <tr>
+                    <th>Reference ID</th>
+                    <th>Category</th>
+                    <th>Filed Timestamp</th>
+                    <th>Status</th>
+                    <th>Time Elapsed</th>
+                    <th>Accountability SLA Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="hod-sla-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- HOD Safety Summary Pane -->
+        <div class="dashboard-pane" id="hod-pane-summary">
+          <div class="dashboard-card">
+            <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 12px;">Department Anti-Ragging Compliance Summary</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 16px;">
+              Department proctors conduct bi-weekly audits across mechanical laboratories, workshops, and classroom wings. Repeat violations are flagged automatically by the CampusGuard engine.
+            </p>
+            <div style="background: var(--color-surface); padding: 16px; border-radius: var(--radius-control); display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+              <div>
+                <span class="field-label">Assigned Department</span>
+                <span class="field-val">Department of Mechanical Engineering</span>
+              </div>
+              <div>
+                <span class="field-label">Faculty Proctors Assigned</span>
+                <span class="field-val">4 Senior Professors</span>
+              </div>
+              <div>
+                <span class="field-label">Escalation Threshold</span>
+                <span class="field-val">2nd Report → Dean of Student Affairs</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- HOD Profile Pane -->
+        <div class="dashboard-pane" id="hod-pane-profile">
+          <div class="profile-card">
+            <div class="profile-header-row">
+              <div class="profile-avatar-large">H</div>
+              <div>
+                <span class="badge badge-review">Head of Department (Level 1)</span>
+                <h2 style="font-size: 1.6rem; font-weight: 900; margin-top: 4px;">Dr. K. Ramanathan</h2>
+                <p style="font-size: 0.88rem; color: var(--color-text-secondary);">Professor & Head • Department of Mechanical Engineering</p>
+              </div>
+            </div>
+            <div class="profile-info-grid">
+              <div class="field-item">
+                <span class="field-label">Faculty Employee ID</span>
+                <span class="field-val">FAC-MECH-012</span>
+              </div>
+              <div class="field-item">
+                <span class="field-label">Official Email</span>
+                <span class="field-val">hod.mech@campus.edu</span>
+              </div>
+              <div class="field-item">
+                <span class="field-label">Review Jurisdiction</span>
+                <span class="field-val">Stage 1 First Qualifying Incident Reports</span>
+              </div>
+              <div class="field-item">
+                <span class="field-label">Session Token</span>
+                <span class="field-val" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted);">DEMO-AUTH-HOD-TOKEN-2026</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         VIEW 3: DEAN OF STUDENT AFFAIRS DASHBOARD
+         ========================================================================= -->
+    <section id="dean-portal-view" class="app-view" aria-labelledby="dean-portal-h2">
+      <div class="container">
+        <!-- Dean Sub-Navigation -->
+        <nav class="dashboard-subnav" aria-label="Dean Dashboard Navigation">
+          <button type="button" class="subnav-btn active" data-pane="dean-pane-overview" id="subnav-dean-overview">Overview</button>
+          <button type="button" class="subnav-btn" data-pane="dean-pane-escalated" id="subnav-dean-escalated">Escalated Complaints</button>
+          <button type="button" class="subnav-btn" data-pane="dean-pane-awaiting" id="subnav-dean-awaiting">Awaiting Review</button>
+          <button type="button" class="subnav-btn" data-pane="dean-pane-active" id="subnav-dean-active">Cases Under Review</button>
+          <button type="button" class="subnav-btn" data-pane="dean-pane-history" id="subnav-dean-history">HOD Escalation History</button>
+          <button type="button" class="subnav-btn" data-pane="dean-pane-accountability" id="subnav-dean-accountability">Review Accountability</button>
+          <button type="button" class="subnav-btn" data-pane="dean-pane-trends" id="subnav-dean-trends">Reports & Trends</button>
+          <button type="button" class="subnav-btn" data-pane="dean-pane-profile" id="subnav-dean-profile">Profile</button>
+        </nav>
+
+        <div class="role-banner-alert" style="margin-bottom: var(--space-lg);">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--color-primary); flex-shrink: 0;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>
+              <strong>🔒 Proctorial Shield (Dean Level 2):</strong> Complainant identity remains protected at the Dean level. The Dean coordinates campus-wide investigations and issues patrol orders.
+            </span>
+          </div>
+        </div>
+
+        <!-- Dean Overview -->
+        <div class="dashboard-pane active-pane" id="dean-pane-overview">
+          <div class="dashboard-header">
+            <div>
+              <span class="section-tag">Stage 2 Proctorial Directorate</span>
+              <h2 id="dean-portal-h2">Dean of Student Affairs Dashboard</h2>
+              <p>Logged in as <strong>Prof. S. Soundararajan</strong>. Supervising campus repeat offenses and proctorial inquiries.</p>
+            </div>
+          </div>
+
+          <div class="metrics-grid">
+            <div class="metric-card card-escalated">
+              <span class="metric-label">Cases Escalated to Dean</span>
+              <span class="metric-value" id="dean-metric-escalated">0</span>
+              <span class="metric-sub">Stage 2 active cases</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">Awaiting Review</span>
+              <span class="metric-value" id="dean-metric-awaiting">0</span>
+              <span class="metric-sub">Pending action</span>
+            </div>
+            <div class="metric-card card-review">
+              <span class="metric-label">In Proctorial Review</span>
+              <span class="metric-value" id="dean-metric-in-review">0</span>
+              <span class="metric-sub">Active inquiry</span>
+            </div>
+            <div class="metric-card card-critical">
+              <span class="metric-label">Escalated to Higher Auth</span>
+              <span class="metric-value" id="dean-metric-escalated-higher">0</span>
+              <span class="metric-sub">Elevated to Level 3</span>
+            </div>
+          </div>
+
+          <div class="dashboard-card">
+            <div class="card-title-row">
+              <h3>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+                Level 2 Escalated Cases Requiring Action
+              </h3>
+              <span class="badge badge-escalated" id="dean-cases-badge">Dean Queue</span>
+            </div>
+            <div class="authority-cases-grid" id="dean-cases-container"></div>
+          </div>
+        </div>
+
+        <!-- Dean Escalated Complaints Pane -->
+        <div class="dashboard-pane" id="dean-pane-escalated">
+          <div class="dashboard-header">
+            <div>
+              <h2>Level 2 Escalated Complaints</h2>
+              <p>Cases automatically elevated due to repeat violations or departmental forwarding.</p>
+            </div>
+          </div>
+          <div class="authority-cases-grid" id="dean-escalated-list"></div>
+        </div>
+
+        <!-- Dean Awaiting Review Pane -->
+        <div class="dashboard-pane" id="dean-pane-awaiting">
+          <div class="dashboard-header">
+            <div>
+              <h2>Cases Awaiting Initial Proctorial Review</h2>
+              <p>Elevated cases queued for proctorial committee assignment.</p>
+            </div>
+          </div>
+          <div class="authority-cases-grid" id="dean-awaiting-list"></div>
+        </div>
+
+        <!-- Dean Cases Under Review Pane -->
+        <div class="dashboard-pane" id="dean-pane-active">
+          <div class="dashboard-header">
+            <div>
+              <h2>Ongoing Proctorial Inquiries</h2>
+              <p>Active hearings, hostel patrol inspections, and digital evidence takedowns.</p>
+            </div>
+          </div>
+          <div class="authority-cases-grid" id="dean-active-list"></div>
+        </div>
+
+        <!-- Dean HOD History Pane -->
+        <div class="dashboard-pane" id="dean-pane-history">
+          <div class="dashboard-header">
+            <div>
+              <h2>Prior Department HOD Forwarding History</h2>
+              <p>Audit trail of case graduations from department level to deanery.</p>
+            </div>
+          </div>
+          <div class="authority-cases-grid" id="dean-history-list"></div>
+        </div>
+
+        <!-- Dean PART 5: Review Accountability Pane -->
+        <div class="dashboard-pane" id="dean-pane-accountability">
+          <div class="accountability-panel">
+            <div class="card-title-row">
+              <h3>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+                Deanery Review Accountability & Response Times
+              </h3>
+              <span class="badge badge-submitted">72-Hour Resolution Target</span>
+            </div>
+            <p style="font-size: 0.88rem; color: var(--color-text-secondary);">
+              Supervise proctorial review timeliness to ensure repeat cases receive prompt executive elevation:
+            </p>
+            <div class="privacy-table-wrapper">
+              <table class="accountability-table">
+                <thead>
+                  <tr>
+                    <th>Reference ID</th>
+                    <th>Category</th>
+                    <th>Escalated At</th>
+                    <th>Current Status</th>
+                    <th>Time In Level</th>
+                    <th>SLA Benchmark</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="dean-sla-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dean Reports & Trends Pane -->
+        <div class="dashboard-pane" id="dean-pane-trends">
+          <div class="dashboard-card">
+            <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 12px;">Campus Harassment Trend Analysis</h3>
+            <p style="color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 16px;">
+              Repeat occurrences trigger deterministic escalation to eliminate repeat offender impunity across residential hostels and digital platforms.
+            </p>
+            <div style="background: var(--color-surface); padding: 16px; border-radius: var(--radius-control); display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+              <div>
+                <span class="field-label">Prevalent Category</span>
+                <span class="field-val">Threats & Cyber Impersonation</span>
+              </div>
+              <div>
+                <span class="field-label">Repeat Violation Rate</span>
+                <span class="field-val" style="color: var(--color-primary-hover);">42% (Triggering Escalation)</span>
+              </div>
+              <div>
+                <span class="field-label">Proctorial Response Time</span>
+                <span class="field-val">&lt; 24 Hours Average</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dean Profile Pane -->
+        <div class="dashboard-pane" id="dean-pane-profile">
+          <div class="profile-card">
+            <div class="profile-header-row">
+              <div class="profile-avatar-large">D</div>
+              <div>
+                <span class="badge badge-escalated">Dean of Student Affairs (Level 2)</span>
+                <h2 style="font-size: 1.6rem; font-weight: 900; margin-top: 4px;">Prof. S. Soundararajan</h2>
+                <p style="font-size: 0.88rem; color: var(--color-text-secondary);">Dean • Directorate of Student Welfare & Campus Life</p>
+              </div>
+            </div>
+            <div class="profile-info-grid">
+              <div class="field-item">
+                <span class="field-label">Administrative ID</span>
+                <span class="field-val">ADMIN-DEAN-001</span>
+              </div>
+              <div class="field-item">
+                <span class="field-label">Official Email</span>
+                <span class="field-val">dean.affairs@campus.edu</span>
+              </div>
+              <div class="field-item">
+                <span class="field-label">Authority Jurisdiction</span>
+                <span class="field-val">Stage 2 Campus Proctorial Interventions & Escalations</span>
+              </div>
+              <div class="field-item">
+                <span class="field-label">Session Token</span>
+                <span class="field-val" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted);">DEMO-AUTH-DEAN-TOKEN-2026</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         VIEW 4: HIGHER AUTHORITY / DISCIPLINARY BOARD DASHBOARD
+         ========================================================================= -->
+    <section id="higher-authority-portal-view" class="app-view" aria-labelledby="exec-portal-h2">
+      <div class="container">
+        <!-- Higher Authority Sub-Navigation -->
+        <nav class="dashboard-subnav" aria-label="Higher Authority Executive Navigation">
+          <button type="button" class="subnav-btn active" data-pane="exec-pane-overview" id="subnav-exec-overview">Executive Overview</button>
+          <button type="button" class="subnav-btn" data-pane="exec-pane-stage3" id="subnav-exec-stage3">Stage 3 Escalations</button>
+          <button type="button" class="subnav-btn" data-pane="exec-pane-connection-map" id="subnav-exec-connection">Incident Connection Map</button>
+          <button type="button" class="subnav-btn" data-pane="exec-pane-all" id="subnav-exec-all">All Cases</button>
+          <button type="button" class="subnav-btn" data-pane="exec-pane-pending" id="subnav-exec-pending">Pending Decisions</button>
+          <button type="button" class="subnav-btn" data-pane="exec-pane-accountability" id="subnav-exec-accountability">Review Accountability</button>
+          <button type="button" class="subnav-btn" data-pane="exec-pane-analytics" id="subnav-exec-analytics">Safety Insights</button>
+          <button type="button" class="subnav-btn" data-pane="exec-pane-profile" id="subnav-exec-profile">Profile</button>
+        </nav>
+
+        <div class="role-banner-alert" style="margin-bottom: var(--space-lg);">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--color-primary); flex-shrink: 0;"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+            <span>
+              <strong>👁️ Authorized Disclosure Level (Level 3):</strong> As Higher Authority / Disciplinary Board, you hold statutory clearance to access unmasked complainant details for official hearings (unless submitted with anonymous shield).
+            </span>
+          </div>
+        </div>
+
+        <!-- Executive Overview Pane -->
+        <div class="dashboard-pane active-pane" id="exec-pane-overview">
+          <div class="dashboard-header">
+            <div>
+              <span class="section-tag">Executive Disciplinary Board</span>
+              <h2 id="exec-portal-h2">Higher Authority Executive Console</h2>
+              <p>Logged in as <strong>Dr. Malathi Narayanan</strong>. Convening statutory tribunals and executing institutional disciplinary measures.</p>
+            </div>
+          </div>
+
+          <div class="metrics-grid">
+            <div class="metric-card card-critical">
+              <span class="metric-label">Stage 3 Critical Cases</span>
+              <span class="metric-value" id="exec-metric-stage3">0</span>
+              <span class="metric-sub">3rd+ repeated offenses</span>
+            </div>
+            <div class="metric-card card-escalated">
+              <span class="metric-label">Under Statutory Hearing</span>
+              <span class="metric-value" id="exec-metric-hearing">0</span>
+              <span class="metric-sub">Show-cause issued</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">Pending Decisions</span>
+              <span class="metric-value" id="exec-metric-pending">0</span>
+              <span class="metric-sub">Awaiting board vote</span>
+            </div>
+            <div class="metric-card card-resolved">
+              <span class="metric-label">Resolved & Closed</span>
+              <span class="metric-value" id="exec-metric-resolved">0</span>
+              <span class="metric-sub">Corrective actions taken</span>
+            </div>
+          </div>
+
+          <div class="dashboard-card">
+            <div class="card-title-row">
+              <h3>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                Stage 3 Escalated Cases (Executive Jurisdiction)
+              </h3>
+              <span class="badge badge-critical" id="exec-cases-badge">Statutory Queue</span>
+            </div>
+            <div class="authority-cases-grid" id="exec-cases-container"></div>
+          </div>
+        </div>
+
+        <!-- Stage 3 Escalations Pane -->
+        <div class="dashboard-pane" id="exec-pane-stage3">
+          <div class="dashboard-header">
+            <div>
+              <h2>Stage 3 Critical Escalations</h2>
+              <p>Repeated third-offense complaints requiring formal disciplinary tribunal orders.</p>
+            </div>
+          </div>
+          <div class="authority-cases-grid" id="exec-stage3-list"></div>
+        </div>
+
+        <!-- PART 4: Repeat Incident Connection Map & Escalation Timeline Pane -->
+        <div class="dashboard-pane" id="exec-pane-connection-map">
+          <div class="escalation-connection-map">
+            <div class="card-title-row">
+              <div>
+                <span class="section-tag">Core Signature Engine</span>
+                <h3 style="font-size: 1.4rem; font-weight: 900; margin-top: 4px;">Incident Connection & Escalation Timeline</h3>
+                <p style="color: var(--color-text-secondary); font-size: 0.88rem;">
+                  Interactive visualization demonstrating how repeat offenses trigger deterministic elevation from HOD to Dean and Higher Authority:
+                </p>
+              </div>
+            </div>
+
+            <!-- 3 Connected Stages -->
+            <div class="connection-stages-track">
+              <!-- Node 1: HOD -->
+              <div class="connection-stage-node" id="conn-node-1">
+                <div class="connection-node-badge">
+                  <span class="badge badge-review">Stage 1</span>
+                  <span style="font-size: 0.75rem; font-weight: 800; color: var(--color-primary);">FIRST REPORT</span>
+                </div>
+                <h4 class="connection-node-title">Head of Dept (HOD)</h4>
+                <div class="connection-node-meta">
+                  <span>Assigned Authority: <strong>Department Head</strong></span><br>
+                  <span>Case Reference: <strong id="conn-ref-1">CR-2026-1042</strong></span><br>
+                  <span>Timestamp: <strong id="conn-time-1">Oct 07, 17:16</strong></span><br>
+                  <span>Status: <strong id="conn-status-1">Under Department Review</strong></span>
+                </div>
+                <div style="font-size: 0.78rem; color: var(--color-text-muted); background: #FFFFFF; padding: 6px 10px; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                  🔒 Whistleblower Identity: <strong>RESTRICTED</strong>
+                </div>
+              </div>
+
+              <!-- Node 2: Dean -->
+              <div class="connection-stage-node" id="conn-node-2">
+                <div class="connection-node-badge">
+                  <span class="badge badge-escalated">Stage 2</span>
+                  <span style="font-size: 0.75rem; font-weight: 800; color: var(--color-primary-hover);">2ND REPEAT REPORT</span>
+                </div>
+                <h4 class="connection-node-title">Dean of Affairs</h4>
+                <div class="connection-node-meta">
+                  <span>Assigned Authority: <strong>Dean of Student Affairs</strong></span><br>
+                  <span>Case Reference: <strong id="conn-ref-2">CR-2026-2189</strong></span><br>
+                  <span>Timestamp: <strong id="conn-time-2">Oct 06, 22:31</strong></span><br>
+                  <span>Status: <strong id="conn-status-2">Escalated to Deanery</strong></span>
+                </div>
+                <div style="font-size: 0.78rem; color: var(--color-text-muted); background: #FFFFFF; padding: 6px 10px; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                  🔒 Whistleblower Identity: <strong>RESTRICTED</strong>
+                </div>
+              </div>
+
+              <!-- Node 3: Higher Authority -->
+              <div class="connection-stage-node" id="conn-node-3">
+                <div class="connection-node-badge">
+                  <span class="badge badge-critical">Stage 3</span>
+                  <span style="font-size: 0.75rem; font-weight: 800; color: var(--color-danger);">3RD+ CRITICAL REPORT</span>
+                </div>
+                <h4 class="connection-node-title">Higher Authority</h4>
+                <div class="connection-node-meta">
+                  <span>Assigned Authority: <strong>Disciplinary Board</strong></span><br>
+                  <span>Case Reference: <strong id="conn-ref-3">CR-2026-3401</strong></span><br>
+                  <span>Timestamp: <strong id="conn-time-3">Oct 05, 23:51</strong></span><br>
+                  <span>Status: <strong id="conn-status-3">Action in Progress</strong></span>
+                </div>
+                <div style="font-size: 0.78rem; color: var(--color-text-muted); background: #FFFFFF; padding: 6px 10px; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                  👁️ Full Unmasked Details: <strong>AUTHORIZED ONLY</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- Simulation Controls for Judges -->
+            <div class="simulation-controls-box">
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                <div>
+                  <h4 style="font-size: 1.05rem; font-weight: 900; color: var(--color-text);">
+                    Demonstration Sandbox for Judges
+                  </h4>
+                  <p style="font-size: 0.82rem; color: var(--color-text-secondary);">
+                    Simulate how qualifying repeat reports elevate the active case across tiers in real time:
+                  </p>
+                </div>
+                <div class="sim-btn-row">
+                  <button type="button" class="btn btn-secondary btn-sm" id="btn-sim-stage-1">Simulate First Report</button>
+                  <button type="button" class="btn btn-secondary btn-sm" id="btn-sim-stage-2">Simulate Second Report</button>
+                  <button type="button" class="btn btn-danger btn-sm" id="btn-sim-stage-3">Simulate Third Report</button>
+                  <button type="button" class="btn btn-secondary btn-sm" id="btn-sim-reset">Reset Demo</button>
+                </div>
+              </div>
+
+              <div id="sim-audit-stream" style="background: #FFFFFF; border: 1px solid var(--color-border); padding: 10px; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.78rem; max-height: 120px; overflow-y: auto; color: var(--color-text-secondary);">
+                <!-- Audit stream entries -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- All Authorized Cases Pane -->
+        <div class="dashboard-pane" id="exec-pane-all">
+          <div class="dashboard-header">
+            <div>
+              <h2>All Institutional Complaints (Master Directory)</h2>
+              <p>High-level administrative directory across all 3 tiers of university complaints.</p>
+            </div>
+          </div>
+          <div class="authority-cases-grid" id="exec-all-list"></div>
+        </div>
+
+        <!-- Pending Decisions Pane -->
+        <div class="dashboard-pane" id="exec-pane-pending">
+          <div class="dashboard-header">
+            <div>
+              <h2>Pending Disciplinary Decisions</h2>
+              <p>Cases where fact-finding is complete and executive resolution orders are awaiting final signature.</p>
+            </div>
+          </div>
+          <div class="authority-cases-grid" id="exec-pending-list"></div>
+        </div>
+
+        <!-- Higher Auth PART 5: Review Accountability Pane -->
+        <div class="dashboard-pane" id="exec-pane-accountability">
+          <div class="accountability-panel">
+            <div class="card-title-row">
+              <h3>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+                Statutory Tribunal Review Accountability & Compliance
+              </h3>
+              <span class="badge badge-critical">Zero Tolerance Compliance</span>
+            </div>
+            <p style="font-size: 0.88rem; color: var(--color-text-secondary);">
+              Review compliance across all escalating complaints to ensure legal timelines are honored:
+            </p>
+            <div class="privacy-table-wrapper">
+              <table class="accountability-table">
+                <thead>
+                  <tr>
+                    <th>Reference ID</th>
+                    <th>Category</th>
+                    <th>Case Group</th>
+                    <th>Escalation Stage</th>
+                    <th>Elapsed</th>
+                    <th>Accountability SLA Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="exec-sla-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- PART 7: Privacy-Preserving Safety Insights Pane -->
+        <div class="dashboard-pane" id="exec-pane-analytics">
+          <div class="dashboard-card">
+            <div class="card-title-row">
+              <h3>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                Campus Safety Insights & Analytics (Synthetic Data)
+              </h3>
+              <span class="badge badge-submitted">Real-time Recalculation</span>
+            </div>
+            <p style="color: var(--color-text-secondary); font-size: 0.88rem;">
+              Aggregate analytics calculated directly from session complaints. Reporter identities remain protected in aggregate summaries.
+            </p>
+
+            <div class="insights-grid" style="margin-top: var(--space-md);">
+              <!-- Chart 1: Categories Breakdown -->
+              <div class="insights-card">
+                <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--color-text);">Incident Categories Breakdown</h4>
+                <div id="chart-categories-container" style="display: flex; flex-direction: column; gap: 10px;">
+                  <!-- Dynamically populated via JS -->
+                </div>
+              </div>
+
+              <!-- Chart 2: Escalation Stage Distribution -->
+              <div class="insights-card">
+                <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--color-text);">Escalation Stage Distribution</h4>
+                <div id="chart-stages-container" style="display: flex; flex-direction: column; gap: 10px;">
+                  <!-- Dynamically populated via JS -->
+                </div>
+              </div>
+
+              <!-- Chart 3: Location Hotspots -->
+              <div class="insights-card">
+                <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--color-text);">Campus Zone Occurrences</h4>
+                <div id="chart-locations-container" style="display: flex; flex-direction: column; gap: 10px;">
+                  <!-- Dynamically populated via JS -->
+                </div>
+              </div>
+
+              <!-- Chart 4: Resolution & Workload -->
+              <div class="insights-card">
+                <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--color-text);">Case Status Workload</h4>
+                <div id="chart-status-container" style="display: flex; flex-direction: column; gap: 10px;">
+                  <!-- Dynamically populated via JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Higher Auth Profile Pane -->
+        <div class="dashboard-pane" id="exec-pane-profile">
+          <div class="profile-card">
+            <div class="profile-header-row">
+              <div class="profile-avatar-large">VC</div>
+              <div>
+                <span class="badge badge-critical">Higher Authority / Disciplinary Board</span>
+                <h2 style="font-size: 1.6rem; font-weight: 900; margin-top: 4px;">Dr. Malathi Narayanan</h2>
+                <p style="font-size: 0.88rem; color: var(--color-text-secondary);">Vice Chancellor & Chair • University Disciplinary Tribunal</p>
+              </div>
+            </div>
+            <div class="profile-info-grid">
+              <div class="field-item">
+                <span class="field-label">Statutory ID</span>
+                <span class="field-val">EXEC-VC-001</span>
+              </div>
+              <div class="field-item">
+                <span class="field-label">Executive Email</span>
+                <span class="field-val">authority.exec@campus.edu</span>
+              </div>
+              <div class="field-item">
+                <span class="field-label">Tribunal Clearance</span>
+                <span class="field-val" style="color: var(--color-danger);">Full Authorized Disclosure & Suspension Power</span>
+              </div>
+              <div class="field-item">
+                <span class="field-label">Session Token</span>
+                <span class="field-val" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted);">DEMO-AUTH-EXEC-TOKEN-2026</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Incident Details View / Action Modal -->
+  <div class="modal-overlay" id="incident-modal" role="dialog" aria-modal="true" aria-labelledby="modal-incident-title">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-incident-title">Incident Record Details</h3>
+        <button type="button" class="btn-close" id="btn-close-modal" aria-label="Close dialog">✕</button>
+      </div>
+      <div id="modal-body-content" style="display: flex; flex-direction: column; gap: 14px;"></div>
+      <div style="display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid var(--color-border); padding-top: 12px;">
+        <button type="button" class="btn btn-secondary" id="btn-modal-dismiss">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PART 3: Privacy Preview Modal -->
+  <div class="modal-overlay" id="privacy-preview-modal" role="dialog" aria-modal="true" aria-labelledby="modal-privacy-title">
+    <div class="modal-dialog" style="max-width: 680px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-privacy-title">Privacy Preview: Who Can See My Report?</h3>
+        <button type="button" class="btn-close" id="btn-close-privacy-modal" aria-label="Close dialog">✕</button>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.88rem;">
+        <p style="color: var(--color-text-secondary);">
+          Review the institutional visibility table below to see which details are permitted for each authority:
+        </p>
+        <div class="privacy-table-wrapper">
+          <table class="privacy-preview-table">
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Student</th>
+                <th>HOD</th>
+                <th>Dean</th>
+                <th>Higher Auth</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Reference ID</strong></td>
+                <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                <td><span class="privacy-tag-visible">✓ Visible</span></td>
+              </tr>
+              <tr>
+                <td><strong>Incident Category</strong></td>
+                <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                <td><span class="privacy-tag-visible">✓ Visible</span></td>
+              </tr>
+              <tr>
+                <td><strong>Description</strong></td>
+                <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                <td><span class="privacy-tag-visible">✓ Visible</span></td>
+              </tr>
+              <tr>
+                <td><strong>Reporter Identity</strong></td>
+                <td><span class="privacy-tag-visible">✓ Own</span></td>
+                <td><span class="privacy-tag-restricted">🔒 Restricted</span></td>
+                <td><span class="privacy-tag-restricted">🔒 Restricted</span></td>
+                <td><span class="privacy-tag-authorized">👁️ Authorized</span></td>
+              </tr>
+              <tr>
+                <td><strong>Suspect Info</strong></td>
+                <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                <td><span class="privacy-tag-visible">✓ Visible</span></td>
+                <td><span class="privacy-tag-visible">✓ Visible</span></td>
+              </tr>
+              <tr>
+                <td><strong>Evidence File</strong></td>
+                <td><span class="privacy-tag-visible">✓ Attached</span></td>
+                <td><span class="privacy-tag-visible">✓ Reviewable</span></td>
+                <td><span class="privacy-tag-visible">✓ Reviewable</span></td>
+                <td><span class="privacy-tag-visible">✓ Reviewable</span></td>
+              </tr>
+              <tr>
+                <td><strong>Internal Notes</strong></td>
+                <td><span class="privacy-tag-restricted">🔒 Hidden</span></td>
+                <td><span class="privacy-tag-visible">✓ Dept Log</span></td>
+                <td><span class="privacy-tag-visible">✓ Proctor Log</span></td>
+                <td><span class="privacy-tag-visible">✓ Board Log</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size: 0.78rem; color: var(--color-text-muted);">
+          Note: Choosing Anonymous Mode permanently seals your identity even from Higher Authority views.
+        </p>
+      </div>
+      <div style="display: flex; justify-content: flex-end; border-top: 1px solid var(--color-border); padding-top: 12px;">
+        <button type="button" class="btn btn-primary btn-sm" id="btn-dismiss-privacy-modal">Got It</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PART 6: Quick Exit Neutral Dialog Modal -->
+  <div class="modal-overlay" id="quick-exit-modal" role="dialog" aria-modal="true" aria-labelledby="modal-quickexit-title">
+    <div class="modal-dialog" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-quickexit-title">⚡ Quick Exit Activated</h3>
+        <button type="button" class="btn-close" id="btn-close-quickexit-modal" aria-label="Close dialog">✕</button>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.88rem;">
+        <p style="color: var(--color-text-secondary);">
+          You have triggered Quick Exit. Would you like to clear any unsaved sensitive text from this form before redirecting?
+        </p>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <button type="button" class="btn btn-danger" id="btn-quickexit-clear">Clear Unsaved Form Data & Exit</button>
+          <button type="button" class="btn btn-secondary" id="btn-quickexit-preserve">Preserve Form & Exit Silently</button>
+        </div>
+        <p style="font-size: 0.75rem; color: var(--color-text-muted);">
+          Quick Exit navigates to the Campus Safe Zones screen immediately. Note: Quick Exit does not delete browser history or network logs.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Forgot Password Demo Credentials Modal -->
+  <div class="modal-overlay" id="forgot-pw-modal" role="dialog" aria-modal="true" aria-labelledby="modal-forgot-title">
+    <div class="modal-dialog" style="max-width: 520px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-forgot-title">Demo Institutional Credentials</h3>
+        <button type="button" class="btn-close" id="btn-close-forgot-modal" aria-label="Close dialog">✕</button>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.88rem;">
+        <p style="color: var(--color-text-secondary);">
+          Demo credentials for each member category:
+        </p>
+        <div style="background: var(--color-surface); padding: 12px; border-radius: var(--radius-control); display: flex; flex-direction: column; gap: 8px; font-family: var(--font-mono); font-size: 0.8rem; border: 1px solid var(--color-border);">
+          <div><strong style="color: var(--color-primary);">1. Student:</strong> student@campus.edu • pw: <code>student123</code></div>
+          <div><strong style="color: var(--color-warning);">2. HOD:</strong> hod.mech@campus.edu • pw: <code>hod123</code></div>
+          <div><strong style="color: var(--color-primary-hover);">3. Dean:</strong> dean.affairs@campus.edu • pw: <code>dean123</code></div>
+          <div><strong style="color: var(--color-danger);">4. Higher Auth:</strong> authority.exec@campus.edu • pw: <code>authority123</code></div>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: flex-end; border-top: 1px solid var(--color-border); padding-top: 12px;">
+        <button type="button" class="btn btn-primary btn-sm" id="btn-dismiss-forgot">Understood</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Feedback Container -->
+  <div class="toast-container" id="toast-container" aria-live="assertive"></div>
+
+  <!-- Professional Site Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="brand">
+            <div class="brand-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <span class="brand-title">Campus<span>Guard</span></span>
+          </div>
+          <p>
+            An ethical, automated student safety framework built for the Hackverse web development competition. Designed to uphold dignity, eradicate ragging, and enforce institutional accountability.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h5>Member Roles</h5>
+          <ul class="footer-links">
+            <li><span style="color: var(--color-primary);">Student Member</span></li>
+            <li><span style="color: var(--color-warning);">Head of Department (HOD)</span></li>
+            <li><span style="color: var(--color-primary-hover);">Dean of Student Affairs</span></li>
+            <li><span style="color: var(--color-danger);">Higher Authority / Disciplinary Board</span></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Security Disclosures</h5>
+          <ul class="footer-links">
+            <li style="font-size: 0.8rem; color: var(--color-text-muted);">Orange & White Design System</li>
+            <li style="font-size: 0.8rem; color: var(--color-text-muted);">Client-Side Session State</li>
+            <li style="font-size: 0.8rem; color: var(--color-text-muted);">Deterministic Escalation Engine</li>
+            <li style="font-size: 0.8rem; color: var(--color-text-muted);">Vanilla HTML/CSS/JS (Zero Frameworks)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 CampusGuard Safety System. Hackverse Competition Entry.</span>
+        <span>Built with Semantic HTML5, Vanilla CSS3, and Vanilla JavaScript (ES6+).</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Logic -->
+  <script src="script.js"></script>
+</body>
+</html>
